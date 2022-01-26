@@ -2,6 +2,7 @@ package com.ibs.tests;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -11,7 +12,7 @@ import java.util.List;
 public class StartPage extends BaseTest {
    // public static WebDriver driver;
 
-    public StartPage(WebDriver driver) {
+    public StartPage(ChromeDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
     }

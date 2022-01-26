@@ -11,13 +11,20 @@ public class BaseTest {
     public static WebDriver driver;
     public static StartPage startPage;
     public static CatalogPage catalogPage;
+    protected static WebDriverWait wait;
+
     @BeforeAll
-    public void before() {
+    public static void before() {
         driver = new ChromeDriver();
-        System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromdriver"));
+        //System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromdriver"));
+        // webdriver.chrome.driver
+
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
+        driver = new ChromeDriver();
+        wait = new WebDriverWait(driver, 10, 1000);
+        driver.get("https://www.rgs.ru");
         driver.manage().window().maximize();
-        WebDriverWait wait = new WebDriverWait(driver, 10, 500);
         driver.get(ConfProperties.getProperty("pageTest"));
+
     }
 }
-
