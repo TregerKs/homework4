@@ -1,17 +1,21 @@
-package com.ibs.tests;
+package com.ibs.tests.framework.managers;
+
+import com.ibs.tests.framework.managers.DriverManager;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
 public class ConfProperties {
+
+    protected DriverManager driverManager = DriverManager.getInstance();
     protected static FileInputStream fileInputStream;
     protected static Properties PROPERTIES;
 
     static {
         try {
             //указание пути до файла с настройками
-            fileInputStream = new FileInputStream("src/test/resources/conf.properties");
+            fileInputStream = new FileInputStream("src/main/resources/conf.properties");
             PROPERTIES = new Properties();
             PROPERTIES.load(fileInputStream);
         } catch (IOException e) {

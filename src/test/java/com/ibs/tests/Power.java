@@ -1,12 +1,31 @@
 package com.ibs.tests;
 
+import com.ibs.tests.framework.managers.Products;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 
-public class Power extends BaseTest {
+
+public class Power extends BaseTests {
+
+
     @Test
-    public void test() {
-        startPage.inputProduct("Apple iPhone 13 Pro Max 256 ГБ");
-        catalogPage.choiceProduct("Apple iPhone 13 Pro Max 256 ГБ голубой");
+    public void test() throws InterruptedException {
+        pageManager.getStartPage()
+                .inputProduct("Apple iPhone 13 Pro Max 256 ГБ")
+                .choiceProduct("Apple iPhone 13 Pro Max 256 ГБ голубой")
+                .getPriceProductInt(Products.IPHONE)
+                .clickGuarantee()
+                .clickCheckGuarantee()
+                .isChangePrice()
+                .getPriceProductWithGuaranteeInt(Products.IPHONEWITHGUARANTEE)
+                .clickButtonBuy()
+                .inputProduct("Detroit")
+                .choiceProduct("Игра Detroit: Стать человеком")
+                .getPriceProductInt(Products.DETROIT)
+                .clickButtonBuy();
+        pageManager.getProductPage().getPriceBasketInt()
+                .clickBasketButton()
+                .isCheckGuarantee("Apple iPhone 13 Pro Max 256 ГБ голубой");
+
+
     }
 }
