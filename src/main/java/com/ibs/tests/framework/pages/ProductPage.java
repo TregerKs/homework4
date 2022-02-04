@@ -1,6 +1,8 @@
 package com.ibs.tests.framework.pages;
 
 import com.ibs.tests.framework.managers.Products;
+
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -38,7 +40,10 @@ public class ProductPage extends BasePage {
     @FindBy(xpath = "//button[@data-redirect=\"https://www.dns-shop.ru/order/begin/\"]")
     private WebElement basketButton;
 
+
+    @Step("Сохраняем цену {'product'} в переменную")
     public ProductPage getPriceProductInt(Products product) {
+        waitUtilElementToBeClickable(priceProduct);
         String text = priceProduct.getText();
         text = text.replaceAll(" ", "");
         text = text.replaceAll("₽", "");
@@ -57,22 +62,30 @@ public class ProductPage extends BasePage {
         return pageManager.getProductPage();
     }
 
+    @Step("Выбираем гарантию")
     public ProductPage clickGuarantee() {
+        waitUtilElementToBeClickable(guarantee);
         guarantee.click();
         return pageManager.getProductPage();
     }
 
+    @Step("Ставим галочку о гарантии + 12 месяцев")
     public ProductPage clickCheckGuarantee() {
+        waitUtilElementToBeClickable(checkGuarantee);
         checkGuarantee.click();
         return pageManager.getProductPage();
     }
 
+    @Step("Проверяем, что появилась надпись 'цена изменина'")
     public ProductPage isChangePrice() {
+        waitUtilElementToBeVisible(changePrice);
         Assertions.assertTrue(changePrice.getText().contains("цена изменена"));
         return pageManager.getProductPage();
     }
 
+    @Step("Сохраняем цену {'product'} с гарантией в переменную")
     public ProductPage getPriceProductWithGuaranteeInt(Products product) {
+        waitUtilElementToBeVisible(priceWithGuarantee);
         String text = priceWithGuarantee.getText();
         text = text.replaceAll(" ", "");
         text = text.replaceAll("₽", "");
@@ -91,14 +104,17 @@ public class ProductPage extends BasePage {
         return pageManager.getProductPage();
     }
 
+    @Step("Нажимаем кнопку 'Купить'")
     public StartPage clickButtonBuy() {
+        waitUtilElementToBeClickable(buttonBuy);
         buttonBuy.click();
         return pageManager.getStartPage();
     }
 
-    public ProductPage getPriceBasketInt() throws InterruptedException {
+    @Step("Сравниваем сумму корзины и айфона с гарантией и детроид из переменных")
+    public int getPriceBasketInt() throws InterruptedException {
         Thread.sleep(3000);
-        //waitUtilElementToBeVisible1(priceBasket);
+        waitUtilElementToBeVisible(priceBasket);
         String text = priceBasket.getText();
         text = text.replaceAll(" ", "");
         text = text.replaceAll("₽", "");
@@ -107,12 +123,15 @@ public class ProductPage extends BasePage {
         if (sum != price) {
             System.out.println("Что-то пошло не так: сумма в корзине не равна сумме цен товаров");
         }
-        return pageManager.getProductPage();
+        return price;
     }
 
+    @Step("Переходим в корзину")
     public BasketPage clickBasketButton() {
+        waitUtilElementToBeClickable(basketButton);
         basketButton.click();
         return pageManager.getBasketPage();
     }
+
 
 }

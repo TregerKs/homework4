@@ -22,9 +22,16 @@ public class Power extends BaseTests {
                 .choiceProduct("Игра Detroit: Стать человеком")
                 .getPriceProductInt(Products.DETROIT)
                 .clickButtonBuy();
-        pageManager.getProductPage().getPriceBasketInt()
-                .clickBasketButton()
-                .isCheckGuarantee("Apple iPhone 13 Pro Max 256 ГБ голубой");
+        pageManager.getProductPage().getPriceBasketInt();
+        pageManager.getProductPage().clickBasketButton()
+                .isCheckGuarantee("Apple iPhone 13 Pro Max 256 ГБ голубой")
+                .checkProductsPrice();
+        pageManager.getBasketPage().deleteProduct("Игра Detroit: Стать человеком")
+                .checkProductsPrice()
+                .addProduct("Apple iPhone 13 Pro Max 256 ГБ голубой", 2)
+                .checkProductsPrice();
+        pageManager.getBasketPage().returnProduct()
+                .checkProductsPrice();
 
 
     }

@@ -48,10 +48,10 @@ public class BasePage {
 
     }
 
-    protected void checkCorrect(WebElement element) {
-        WebElement errorInfo = element.findElement(By.xpath("./../../span[@class=\"input__error text--small\"]"));
-        wait.until(ExpectedConditions.textToBePresentInElement(errorInfo, "Введите корректный адрес электронной почты"));
-    }
+//    protected void checkCorrect(WebElement element) {
+//        WebElement errorInfo = element.findElement(By.xpath("./../../span[@class=\"input__error text--small\"]"));
+//        wait.until(ExpectedConditions.textToBePresentInElement(errorInfo, "Введите корректный адрес электронной почты"));
+//    }
 
     protected int getCount(WebElement element) {
         if (element.getText() == null) {
