@@ -13,7 +13,7 @@ public class CatalogPage extends BasePage {
     @FindBy(xpath = "//div[@data-id=\"product\"]")
     private List<WebElement> listProducts;
 
-    @Step("Выбираем {'product'} из списка")
+    @Step("Выбираем {product} из списка")
     public ProductPage choiceProduct(String product) {
         for (WebElement i : listProducts) {
             waitUtilElementToBeClickable(i);

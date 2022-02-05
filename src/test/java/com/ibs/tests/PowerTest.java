@@ -4,11 +4,11 @@ import com.ibs.tests.framework.managers.Products;
 import org.junit.jupiter.api.Test;
 
 
-public class Power extends BaseTests {
+public class PowerTest extends BaseTests {
 
 
     @Test
-    public void test() throws InterruptedException {
+    public void test()  {
         pageManager.getStartPage()
                 .inputProduct("Apple iPhone 13 Pro Max 256 ГБ")
                 .choiceProduct("Apple iPhone 13 Pro Max 256 ГБ голубой")

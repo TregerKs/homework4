@@ -10,6 +10,8 @@ import java.util.List;
 
 public class BasketPage extends BasePage {
 
+    private int quantityGuaranteeInt;
+
     @FindBy(xpath = "//div[@class=\"cart-items__wrapper\"]")
     private List<WebElement> listProductsInBasket;
 
@@ -31,7 +33,10 @@ public class BasketPage extends BasePage {
     @FindBy(xpath = "//div[@class=\"cart-tab-menu\"]//span[@class=\"restore-last-removed\"]")
     private WebElement returnProduct;
 
-    @Step("Проверяем, что выбрана гарантия у {'product'}")
+    @FindBy(xpath = "//div[@class=\"total-amount__count\"]")
+    private WebElement quantityGuarantee;
+
+    @Step("Проверяем, что выбрана гарантия у {product}")
     public BasketPage isCheckGuarantee(String product) {
         for (WebElement i : listProductsInBasket) {
             if (i.getText().contains(product)) {
@@ -47,14 +52,27 @@ public class BasketPage extends BasePage {
         return pageManager.getBasketPage();
     }
 
-    @Step("Проверяем, что у класса элемента есть атрибут {'active'}")
+    @Step("Проверяем, что у класса элемента есть атрибут {active}")
     public boolean elementHasClass(String active) {
         return checkGuarantee.getAttribute("class").contains(active);
     }
 
+    public BasketPage checkQuantityGuarantee(){
+        quantityGuaranteeInt = 0;
+        String str = quantityGuarantee.getText();
+        //str = str.replaceAll("Итого: ", "");
+        char ch = str.charAt(7);
+        quantityGuaranteeInt = Character.getNumericValue(ch);
+        return pageManager.getBasketPage();
+    }
+
     @Step("Считаем сумму товаров в корзине")
-    public BasketPage checkProductsPrice() throws InterruptedException {
-        Thread.sleep(3000);
+    public BasketPage checkProductsPrice() {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         int sumBasket;
         int sumProduct = 0;
         for (WebElement i : listPricesInBasket) {
@@ -70,14 +88,16 @@ public class BasketPage extends BasePage {
 //                return pageManager.getBasketPage();
 //            }
         }
+        checkQuantityGuarantee();
         String priceStr = priceGuarantee.getText();
         priceStr = priceStr.replaceAll(" ", "");
         priceStr = priceStr.replaceAll("₽", "");
         priceStr = priceStr.replaceAll("&nbsp,", "");
         int price = Integer.parseInt(priceStr);
-        sumProduct += price;
+        sumProduct += price*quantityGuaranteeInt;
         sumBasket = pageManager.getProductPage().getPriceBasketInt();
         if (sumProduct == sumBasket) {
+
             System.out.println("Сумма в корзине верная " + sumBasket + "товаров на " + sumProduct);
         } else {
             System.out.println("Сумма в корзине неверная" + sumBasket + "товаров на " + sumProduct);
@@ -85,14 +105,22 @@ public class BasketPage extends BasePage {
         return pageManager.getBasketPage();
     }
 
-    @Step("Удаляем {'name'}")
-    public BasketPage deleteProduct(String name) throws InterruptedException {
-        Thread.sleep(3000);
+    @Step("Удаляем {name}")
+    public BasketPage deleteProduct(String name) {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         for (WebElement i : listProductsInBasket) {
             if (i.getText().contains(name)) {
                 WebElement deleteProduct = i.findElement(By.xpath("./../..//button[contains(@class, \"remove-button\")]"));
                 deleteProduct.click();
-                Thread.sleep(3000);
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 Assertions.assertTrue(listProductsInBasket.size() == 1, "Удаление не прошло");
                 break;
             }
@@ -100,15 +128,23 @@ public class BasketPage extends BasePage {
         return pageManager.getBasketPage();
     }
 
-    @Step("Добавляем {'name'} {'quantity'} раз")
-    public BasketPage addProduct(String name, int quantity) throws InterruptedException {
+    @Step("Добавляем {name} {quantity} раз")
+    public BasketPage addProduct(String name, int quantity) {
         for (int i = 0; i < quantity; i++) {
-            Thread.sleep(3000);
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 //        for (WebElement i : listProductsInBasket) {
 //            if (i.getText().contains(name)) {
 //                WebElement addProduct = i.findElement(By.xpath("./../..//button[contains(@class, \"count-buttons__icon-plus\")]"));
             waitUtilElementToBeClickable(addProduct);
-            Thread.sleep(3000);
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             addProduct.click();
 //                System.out.println("Зашел в добавление");
 //                break;

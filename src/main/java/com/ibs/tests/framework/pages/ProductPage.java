@@ -41,7 +41,7 @@ public class ProductPage extends BasePage {
     private WebElement basketButton;
 
 
-    @Step("Сохраняем цену {'product'} в переменную")
+    @Step("Сохраняем цену {product} в переменную")
     public ProductPage getPriceProductInt(Products product) {
         waitUtilElementToBeClickable(priceProduct);
         String text = priceProduct.getText();
@@ -83,7 +83,7 @@ public class ProductPage extends BasePage {
         return pageManager.getProductPage();
     }
 
-    @Step("Сохраняем цену {'product'} с гарантией в переменную")
+    @Step("Сохраняем цену {product} с гарантией в переменную")
     public ProductPage getPriceProductWithGuaranteeInt(Products product) {
         waitUtilElementToBeVisible(priceWithGuarantee);
         String text = priceWithGuarantee.getText();
@@ -112,8 +112,12 @@ public class ProductPage extends BasePage {
     }
 
     @Step("Сравниваем сумму корзины и айфона с гарантией и детроид из переменных")
-    public int getPriceBasketInt() throws InterruptedException {
-        Thread.sleep(3000);
+    public int getPriceBasketInt()  {
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         waitUtilElementToBeVisible(priceBasket);
         String text = priceBasket.getText();
         text = text.replaceAll(" ", "");
