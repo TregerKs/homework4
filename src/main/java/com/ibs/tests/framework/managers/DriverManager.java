@@ -33,24 +33,24 @@ public class DriverManager {
     }
 
     private void initDriver(){
-        System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
-        ChromeOptions ops = new ChromeOptions();
-        ops.addArguments("--disable-notifications");
-        driver = new ChromeDriver();
-//        DesiredCapabilities capabilities = new DesiredCapabilities();
-//        capabilities.setBrowserName("chrome");
-//        capabilities.setVersion("81.0");
-//        capabilities.setCapability("enableVNC", true);
-//        capabilities.setCapability("enableVideo", false);
-//
-//        try {
-//            driver = new RemoteWebDriver(
-//                    URI.create("http://selenoid.appline.ru/:4444/wd/hub").toURL(),
-//                    capabilities
-//            );
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        }
+//        System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
+//        ChromeOptions ops = new ChromeOptions();
+//        ops.addArguments("--disable-notifications");
+//        driver = new ChromeDriver();
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setBrowserName("chrome");
+        capabilities.setVersion("81.0");
+        capabilities.setCapability("enableVNC", true);
+        capabilities.setCapability("enableVideo", false);
+
+        try {
+            driver = new RemoteWebDriver(
+                    URI.create("http://selenoid.appline.ru/:4444/wd/hub").toURL(),
+                    capabilities
+            );
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void quitDriver() {
