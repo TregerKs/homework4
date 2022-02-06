@@ -14,7 +14,6 @@ public class StartPage extends BasePage {
     @Step("Вводим {product} в поисковой строке")
     public CatalogPage inputProduct(String product) {
         fillInputField(windowSearch, product);
-        //searchButton.click();
         windowSearch.submit();
         //Assertions.assertTrue(driverManager.getDriver().getTitle().contains(product), "Страница не загрузилась");
         return pageManager.getCatalogPage();

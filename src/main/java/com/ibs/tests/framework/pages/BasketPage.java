@@ -33,37 +33,31 @@ public class BasketPage extends BasePage {
     @FindBy(xpath = "//div[@class=\"cart-tab-menu\"]//span[@class=\"restore-last-removed\"]")
     private WebElement returnProduct;
 
-    @FindBy(xpath = "//div[@class=\"total-amount__count\"]")
+    @FindBy(xpath = "//input[@class=\"count-buttons__input\"]")
     private WebElement quantityGuarantee;
 
     @Step("Проверяем, что выбрана гарантия у {product}")
     public BasketPage isCheckGuarantee(String product) {
         for (WebElement i : listProductsInBasket) {
             if (i.getText().contains(product)) {
-                //if (elementHasClass( "base-ui-radio-button__icon base-ui-radio-button__icon_checked"))
-                if (elementHasClass("base-ui-radio-button__icon_checked")) {
-                    return pageManager.getBasketPage();
-                } else {
-                    System.out.println("Гарантия не выбрана");
-                    return pageManager.getBasketPage();
-                }
+                elementHasClass("base-ui-radio-button__icon base-ui-radio-button__icon_checked");
+                return pageManager.getBasketPage();
             }
         }
         return pageManager.getBasketPage();
     }
 
     @Step("Проверяем, что у класса элемента есть атрибут {active}")
-    public boolean elementHasClass(String active) {
-        return checkGuarantee.getAttribute("class").contains(active);
+    public void elementHasClass(String active) {
+        Assertions.assertEquals(checkGuarantee.getAttribute("class"), active, "Гарантия не выбрана");
     }
 
-    public BasketPage checkQuantityGuarantee(){
+    @Step("Сохраняем количество гарантий")
+    public void saveQuantityGuarantee() {
         quantityGuaranteeInt = 0;
-        String str = quantityGuarantee.getText();
-        //str = str.replaceAll("Итого: ", "");
-        char ch = str.charAt(7);
-        quantityGuaranteeInt = Character.getNumericValue(ch);
-        return pageManager.getBasketPage();
+        String str = quantityGuarantee.getAttribute("value");
+        quantityGuaranteeInt = Integer.parseInt(str);
+        pageManager.getBasketPage();
     }
 
     @Step("Считаем сумму товаров в корзине")
@@ -80,28 +74,19 @@ public class BasketPage extends BasePage {
             priceStr = priceStr.replaceAll(" ", "");
             priceStr = priceStr.replaceAll("₽", "");
             int price = Integer.parseInt(priceStr);
-            //  if (price == pageManager.getProductPage().iphone || price == pageManager.getProductPage().detroit || price == pageManager.getProductPage().iphoneWithGuarantee) {
             sumProduct += price;
-//                System.out.println("Цена совпала");
-//            } else {
-//                System.out.println("Цена не совпала");
-//                return pageManager.getBasketPage();
-//            }
+
         }
-        checkQuantityGuarantee();
+        saveQuantityGuarantee();
         String priceStr = priceGuarantee.getText();
         priceStr = priceStr.replaceAll(" ", "");
         priceStr = priceStr.replaceAll("₽", "");
         priceStr = priceStr.replaceAll("&nbsp,", "");
         int price = Integer.parseInt(priceStr);
-        sumProduct += price*quantityGuaranteeInt;
+        sumProduct += price * quantityGuaranteeInt;
         sumBasket = pageManager.getProductPage().getPriceBasketInt();
-        if (sumProduct == sumBasket) {
+        Assertions.assertTrue((sumProduct == sumBasket), "Сумма в корзине не совспадает с суммой товаров в ней");
 
-            System.out.println("Сумма в корзине верная " + sumBasket + "товаров на " + sumProduct);
-        } else {
-            System.out.println("Сумма в корзине неверная" + sumBasket + "товаров на " + sumProduct);
-        }
         return pageManager.getBasketPage();
     }
 
@@ -113,6 +98,7 @@ public class BasketPage extends BasePage {
             e.printStackTrace();
         }
         for (WebElement i : listProductsInBasket) {
+           // scrollToElementJs(i);
             if (i.getText().contains(name)) {
                 WebElement deleteProduct = i.findElement(By.xpath("./../..//button[contains(@class, \"remove-button\")]"));
                 deleteProduct.click();
@@ -121,7 +107,7 @@ public class BasketPage extends BasePage {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Assertions.assertTrue(listProductsInBasket.size() == 1, "Удаление не прошло");
+                Assertions.assertEquals(1, listProductsInBasket.size(), "Удаление не прошло");
                 break;
             }
         }
@@ -130,26 +116,26 @@ public class BasketPage extends BasePage {
 
     @Step("Добавляем {name} {quantity} раз")
     public BasketPage addProduct(String name, int quantity) {
+        //scrollToElementJs(addProduct);
+        waitUtilElementToBeVisible(addProduct);
         for (int i = 0; i < quantity; i++) {
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(3000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
 //        for (WebElement i : listProductsInBasket) {
 //            if (i.getText().contains(name)) {
 //                WebElement addProduct = i.findElement(By.xpath("./../..//button[contains(@class, \"count-buttons__icon-plus\")]"));
-            waitUtilElementToBeClickable(addProduct);
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            addProduct.click();
-//                System.out.println("Зашел в добавление");
-//                break;
+
+//            try {
+//                Thread.sleep(3000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
 //            }
-//        }
+
+            waitUtilElementToBeClickable(addProduct);
+            addProduct.click();
         }
         return pageManager.getBasketPage();
     }

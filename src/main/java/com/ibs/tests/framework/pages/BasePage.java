@@ -10,10 +10,12 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+
 public class BasePage {
 
     protected final DriverManager driverManager = DriverManager.getInstance();
-    protected WebDriverWait wait = new WebDriverWait(driverManager.getDriver(), 10, 1000);
+    protected WebDriverWait wait = new WebDriverWait(driverManager.getDriver(), Duration.ofSeconds(10), Duration.ofMillis(1000));
     protected JavascriptExecutor js = (JavascriptExecutor) driverManager.getDriver();
     protected PageManager pageManager = PageManager.getInstance();
 

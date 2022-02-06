@@ -76,10 +76,10 @@ public class ProductPage extends BasePage {
         return pageManager.getProductPage();
     }
 
-    @Step("Проверяем, что появилась надпись 'цена изменина'")
+    @Step("Проверяем, что появилась надпись 'цена изменена'")
     public ProductPage isChangePrice() {
         waitUtilElementToBeVisible(changePrice);
-        Assertions.assertTrue(changePrice.getText().contains("цена изменена"));
+        Assertions.assertTrue(changePrice.getText().contains("цена изменена"), "На странице не появилась надпись 'цена изменена'");
         return pageManager.getProductPage();
     }
 
@@ -111,7 +111,7 @@ public class ProductPage extends BasePage {
         return pageManager.getStartPage();
     }
 
-    @Step("Сравниваем сумму корзины и айфона с гарантией и детроид из переменных")
+    @Step("Берем значение суммы товаров в корзине")
     public int getPriceBasketInt()  {
         try {
             Thread.sleep(3000);
@@ -123,11 +123,14 @@ public class ProductPage extends BasePage {
         text = text.replaceAll(" ", "");
         text = text.replaceAll("₽", "");
         int price = Integer.parseInt(text);
-        int sum = iphoneWithGuarantee + detroit;
-        if (sum != price) {
-            System.out.println("Что-то пошло не так: сумма в корзине не равна сумме цен товаров");
-        }
         return price;
+    }
+    @Step("Сравниваем сумму корзины и айфона с гарантией и детроид из переменных")
+    public ProductPage checkPriceBasketWithConstants() {
+        int sum = iphoneWithGuarantee + detroit;
+        int price = getPriceBasketInt();
+        Assertions.assertTrue((sum == price), "Cумма в корзине не равна сумме цен товаров");
+        return pageManager.getProductPage();
     }
 
     @Step("Переходим в корзину")

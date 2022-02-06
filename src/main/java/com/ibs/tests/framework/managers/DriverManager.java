@@ -3,6 +3,11 @@ package com.ibs.tests.framework.managers;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.net.MalformedURLException;
+import java.net.URI;
 
 public class DriverManager {
 
@@ -32,9 +37,20 @@ public class DriverManager {
         ChromeOptions ops = new ChromeOptions();
         ops.addArguments("--disable-notifications");
         driver = new ChromeDriver();
-//        driver.manage().window().maximize();
-//        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
-//        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+//        DesiredCapabilities capabilities = new DesiredCapabilities();
+//        capabilities.setBrowserName("chrome");
+//        capabilities.setVersion("81.0");
+//        capabilities.setCapability("enableVNC", true);
+//        capabilities.setCapability("enableVideo", false);
+//
+//        try {
+//            driver = new RemoteWebDriver(
+//                    URI.create("http://selenoid.appline.ru/:4444/wd/hub").toURL(),
+//                    capabilities
+//            );
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public void quitDriver() {
