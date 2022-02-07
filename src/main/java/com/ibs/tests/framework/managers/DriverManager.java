@@ -33,7 +33,7 @@ public class DriverManager {
     }
 
     private void initDriver() {
-        DriverType driverType = DriverType.LOCAL;
+        DriverType driverType = DriverType.REMOTE;
 
         if (driverType.equals(DriverType.LOCAL)) {
             System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
