@@ -12,10 +12,10 @@ public class PowerTest extends BaseTests {
     @DisplayName("Тест по сайту DNS")
     public void test() {
         pageManager.getStartPage()
-                .inputProduct("Apple iPhone 13 Pro Max 256 ГБ")
-                .choiceProduct("Apple iPhone 13 Pro Max 256 ГБ голубой")
-                .getPriceProductInt(Products.IPHONE)
-                .clickGuarantee();
+                .inputProduct("Apple iPhone 13 Pro Max 256 ГБ");
+//                .choiceProduct("Apple iPhone 13 Pro Max 256 ГБ голубой")
+//                .getPriceProductInt(Products.IPHONE)
+//                .clickGuarantee()
 //                .clickCheckGuarantee()
 //                .isChangePrice()
 //                .getPriceProductWithGuaranteeInt(Products.IPHONEWITHGUARANTEE)
@@ -29,12 +29,10 @@ public class PowerTest extends BaseTests {
 //                .isCheckGuarantee("Apple iPhone 13 Pro Max 256 ГБ голубой")
 //                .checkProductsPrice()
 //                .deleteProduct("Игра Detroit: Стать человеком")
-//                .checkProductsPrice();
+//                .checkProductsPrice()
 //                .addProduct("Apple iPhone 13 Pro Max 256 ГБ голубой", 2)
 //                .checkProductsPrice()
 //                .returnProduct()
 //                .checkProductsPrice();
-
-
     }
 }

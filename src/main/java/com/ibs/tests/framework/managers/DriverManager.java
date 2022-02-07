@@ -11,7 +11,7 @@ import java.net.URI;
 
 public class DriverManager {
 
-    private static DriverManager driverManager  = null;
+    private static DriverManager driverManager = null;
 
     private WebDriver driver;
 
@@ -19,38 +19,43 @@ public class DriverManager {
     }
 
     public static DriverManager getInstance() {
-        if (driverManager  == null) {
-            driverManager  = new DriverManager();
+        if (driverManager == null) {
+            driverManager = new DriverManager();
         }
-        return driverManager ;
+        return driverManager;
     }
 
-    public WebDriver getDriver(){
+    public WebDriver getDriver() {
         if (driver == null) {
             initDriver();
         }
         return driver;
     }
 
-    private void initDriver(){
-//        System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
-//        ChromeOptions ops = new ChromeOptions();
-//        ops.addArguments("--disable-notifications");
-//        driver = new ChromeDriver();
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setBrowserName("chrome");
-        capabilities.setVersion("81.0");
-        capabilities.setCapability("enableVNC", true);
-        capabilities.setCapability("enableVideo", false);
+    private void initDriver() {
+        DriverType driverType = DriverType.LOCAL;
+
+        if (driverType.equals(DriverType.LOCAL)) {
+            System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
+            ChromeOptions ops = new ChromeOptions();
+            ops.addArguments("--disable-notifications");
+            driver = new ChromeDriver();
+        } else if (driverType.equals(DriverType.REMOTE)) {
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.setBrowserName("chrome");
+            capabilities.setVersion("81.0");
+            capabilities.setCapability("enableVNC", true);
+            capabilities.setCapability("enableVideo", false);
 
 
-        try {
-            driver = new RemoteWebDriver(
-                    URI.create("http://161.35.196.82:4444/wd/hub").toURL(),
-                    capabilities
-            );
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+            try {
+                driver = new RemoteWebDriver(
+                        URI.create("http://161.35.196.82:4444/wd/hub").toURL(),
+                        capabilities
+                );
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
