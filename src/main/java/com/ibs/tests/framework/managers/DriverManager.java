@@ -43,9 +43,10 @@ public class DriverManager {
         capabilities.setCapability("enableVNC", true);
         capabilities.setCapability("enableVideo", false);
 
+
         try {
             driver = new RemoteWebDriver(
-                    URI.create("http://selenoid.appline.ru/:4444/wd/hub").toURL(),
+                    URI.create("http://161.35.196.82:4444/wd/hub").toURL(),
                     capabilities
             );
         } catch (MalformedURLException e) {
